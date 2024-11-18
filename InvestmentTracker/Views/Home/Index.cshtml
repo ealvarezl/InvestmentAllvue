@@ -2,12 +2,37 @@
 {
     <div class="alert alert-success">
         @TempData["SuccessMessage"]
-        <ul>
-            <li><strong>Remaining Shares:</strong> @TempData["RemainingShares"]</li>
-            <li><strong>Cost Basis Per Sold Share:</strong> $@TempData["CostBasisSold"]</li>
-            <li><strong>Cost Basis Per Remaining Share:</strong> $@TempData["CostBasisRemaining"]</li>
-            <li><strong>Total Profit/Loss:</strong> $@TempData["TotalProfit"]</li>
-        </ul>
+    </div>
+
+    @if (TempData["RemainingShares"] != null || TempData["CostBasisSold"] != null
+       || TempData["CostBasisRemaining"] != null || TempData["TotalProfit"] != null)
+    {
+        <div class="alert alert-success">
+            <ul>
+                @if (TempData["RemainingShares"] != null)
+                {
+                    <li>Remaining Shares: @TempData["RemainingShares"]</li>
+                }
+                @if (TempData["CostBasisSold"] != null)
+                {
+                    <li>Cost Basis of Sold Shares: $@TempData["CostBasisSold"]</li>
+                }
+                @if (TempData["CostBasisRemaining"] != null)
+                {
+                    <li>Cost Basis of Remaining Shares: $@TempData["CostBasisRemaining"]</li>
+                }
+                @if (TempData["TotalProfit"] != null)
+                {
+                    <li>Total Profit: $@TempData["TotalProfit"]</li>
+                }
+            </ul>
+        </div>
+    }
+}
+@if (TempData["WarningMessage"] != null)
+{
+    <div class="alert alert-warning">
+        @TempData["WarningMessage"]
     </div>
 }
 

@@ -1,7 +1,9 @@
 using InvestmentTracker.Data;
 using InvestmentTracker.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using System.Diagnostics;
+using System.Runtime.ConstrainedExecution;
 
 namespace InvestmentTracker.Controllers
 {
@@ -64,24 +66,32 @@ namespace InvestmentTracker.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                  
+                    
+                    if (investmentLot.PurchaseDate > new DateTime(2024, 3, 31))
+                    {
+                        
+                        TempData["WarningMessage"] = "The purchase date is after April 1, 2024. This lot may not be eligible for sales.";
+                    }
+
+                    
                     _context.InvestmentLots.Add(investmentLot);
                     _context.SaveChanges();
 
+                    
                     TempData["SuccessMessage"] = "Investment lot added successfully!";
                     return RedirectToAction(nameof(Index));
                 }
 
-                
                 return View(investmentLot);
             }
             catch (Exception ex)
             {
-                
+               
                 ModelState.AddModelError("", $"An error occurred: {ex.Message}");
                 return View(investmentLot);
             }
         }
+
 
 
         // GET: Home/Sell
@@ -98,21 +108,35 @@ namespace InvestmentTracker.Controllers
         {
             try
             {
-               
-                var totalAvailableShares = _context.InvestmentLots.Sum(lot => lot.Shares);
-                if (sharesToSell > totalAvailableShares)
+
+                if (sharesToSell <= 0)
                 {
-                    ModelState.AddModelError("", "Not enough shares available to sell.");
+                    ModelState.AddModelError("", "You must sell at least one share.");
                     return View();
                 }
 
-                // FIFO: Process Sell
+                // Valid lots to sell (Before march 31, 2024)
+                var eligibleLots = _context.InvestmentLots
+                    .Where(lot => lot.PurchaseDate <= new DateTime(2024, 3, 31))
+                    .OrderBy(lot => lot.PurchaseDate)
+                    .ToList();
+
+ 
+                var totalEligibleShares = eligibleLots.Sum(lot => lot.Shares);
+                if (sharesToSell > totalEligibleShares)
+                {
+                    ModelState.AddModelError("", "Not enough eligible shares available to sell. Only shares purchased before April 1, 2024, can be sold.");
+                    return View();
+                }
+
+              
                 var remainingShares = sharesToSell;
                 decimal totalProfit = 0;
                 decimal totalCostOfSoldShares = 0;
                 int totalSoldShares = 0;
 
-                foreach (var lot in _context.InvestmentLots.OrderBy(lot => lot.PurchaseDate))
+                //FIFO
+                foreach (var lot in eligibleLots)
                 {
                     if (remainingShares <= 0) break;
 
@@ -135,30 +159,42 @@ namespace InvestmentTracker.Controllers
                 }
 
                
-                _context.SaveChanges();
+                if (totalSoldShares == 0)
+                {
+                    ModelState.AddModelError("", "No shares were sold. Please check your input.");
+                    return View();
+                }
 
                 
+                _context.SaveChanges();
+
+              
                 var remainingSharesAfterSale = _context.InvestmentLots.Sum(lot => lot.Shares);
                 var totalCostOfRemainingShares = _context.InvestmentLots.Sum(lot => lot.Shares * lot.PricePerShare);
-                decimal costBasisPerShareSold = totalCostOfSoldShares / totalSoldShares;
+
+                decimal costBasisPerShareSold = Math.Round(totalCostOfSoldShares / totalSoldShares, 2);
                 decimal costBasisPerShareRemaining = remainingSharesAfterSale > 0
-                    ? totalCostOfRemainingShares / remainingSharesAfterSale
+                    ? Math.Round(totalCostOfRemainingShares / remainingSharesAfterSale, 2)
                     : 0;
 
- 
+              
                 TempData["SuccessMessage"] = $"Successfully sold {sharesToSell} shares.";
-                TempData["RemainingShares"] = remainingSharesAfterSale;
-                TempData["CostBasisSold"] = costBasisPerShareSold.ToString("F2");
-                TempData["CostBasisRemaining"] = costBasisPerShareRemaining.ToString("F2");
-                TempData["TotalProfit"] = totalProfit.ToString("F2");
+                TempData["RemainingShares"] = $"Remaining Shares: {remainingSharesAfterSale} ";
+                TempData["CostBasisSold"] = $"Cost Basis Per Sold Share: {costBasisPerShareSold.ToString("F2")} ";
+                TempData["CostBasisRemaining"] = $"Cost Basis Per Remaining Share: {costBasisPerShareRemaining.ToString("F2")}";
+                TempData["TotalProfit"] = $"Total Profit/Loss: {totalProfit.ToString("F2")}";
 
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
+
                 ModelState.AddModelError("", $"An error occurred: {ex.Message}");
                 return View();
             }
         }
+
+
+
     }
 }
