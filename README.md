@@ -20,8 +20,11 @@ The **Investment Tracker** is a web application built with ASP.NET Core, designe
 - Sell shares with the **FIFO** method.
 - Calculate key metrics:
   1. **Remaining Shares**: Total shares left after the sale.
-  2. **Cost Basis**: Per share of sold and remaining shares.
-  3. **Profit or Loss**: Total financial gain or loss from the sale.
+  2. **Cost Basis**: Cost Basis Per share of sold.
+  3. **Cost Basis remaining**: Cost Basis Per Remaining Share
+  4. **Profit or Loss**: Total financial gain or loss from the sale.
+  
+
 
 ### **Dashboard Insights**
 - Interactive summaries displayed post-sale, showing metrics like remaining shares, cost basis, and profit/loss.
