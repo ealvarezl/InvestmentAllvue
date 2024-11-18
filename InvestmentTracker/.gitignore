@@ -1,0 +1,55 @@
+# Visual Studio
+.vscode/
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build results
+bin/
+obj/
+Debug/
+Release/
+out/
+
+# Logs
+*.log
+logs/
+*.tlog
+*.lastbuildstate
+
+# Visual Studio Code
+.vscode/
+
+# Entity Framework
+*.cache
+*.ldb
+migrations/
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Application-specific
+appsettings.json
+appsettings.Development.json
+
+# Docker
+*.env
+docker-compose.override.yml
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*~
+
+# Dependency directories
+node_modules/
+bower_components/
+packages/
+
+# Publish outputs
+publish/
+wwwroot/

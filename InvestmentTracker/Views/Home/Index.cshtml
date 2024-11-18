@@ -1,0 +1,42 @@
+﻿@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+        <ul>
+            <li><strong>Remaining Shares:</strong> @TempData["RemainingShares"]</li>
+            <li><strong>Cost Basis Per Sold Share:</strong> $@TempData["CostBasisSold"]</li>
+            <li><strong>Cost Basis Per Remaining Share:</strong> $@TempData["CostBasisRemaining"]</li>
+            <li><strong>Total Profit/Loss:</strong> $@TempData["TotalProfit"]</li>
+        </ul>
+    </div>
+}
+
+<h1> Investment Lots</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Shares</th>
+            <th>Price Per Share</th>
+            <th>Purchase Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var lot in Model)
+        {
+            <tr>
+                <td>@lot.Id</td>
+                <td>@lot.Shares</td>
+                <td>@lot.PricePerShare.ToString("F2")</td>
+                <td>@lot.PurchaseDate.ToShortDateString()</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="mt-4">
+    <a asp-action="Create" class="btn btn-submit">Add New Investment Lot</a>
+</div>
+
+<div class="mt-4">
+    <a asp-action="Sell" class="btn btn-submit">Sell Shares</a>
+</div>
