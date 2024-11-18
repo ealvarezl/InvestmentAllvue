@@ -1,113 +1,123 @@
-# Investment Tracker. Allvue Technical Assessment
-
-## **Overview**
-
-The **Investment Tracker** is an ASP.NET Core web application that allows users to manage their investments. The application tracks investment lots, provides the ability to sell shares using the FIFO (First In, First Out) accounting method, and calculates key metrics such as profits, cost basis per share, and remaining shares after a sale.
+Here's an improved and polished version of your README with a more structured flow, concise language, and additional clarity for users and developers:
 
 ---
 
-## **Features**
+# **Investment Tracker**  
+**Allvue Technical Assessment**
 
-- **Investment Management**:
-  - Add new investment lots with details such as shares, price per share, and purchase date.
-  - View a summary of all investment lots in a clean and user-friendly table.
+## **Overview**  
 
-- **Sell Shares**:
-  - Sell shares using the **FIFO** method.
-  - Calculate:
-    1. Remaining number of shares after the sale.
-    2. Cost basis per share of the sold shares.
-    3. Cost basis per share of the remaining shares.
-    4. Total profit or loss of the sale.
+The **Investment Tracker** is a web application built with ASP.NET Core, designed to help users efficiently manage their investments. It enables tracking of investment lots, selling shares using the **FIFO (First In, First Out)** accounting method, and provides critical insights such as profits, cost basis per share, and remaining shares after each sale.
 
-- **Interactive Dashboard**:
-  - Get detailed insights, after selling shares.
+---
 
-- **Clean Architecture**:
-  - Separation of concerns with controllers, models, and database interactions.
+## **Key Features**  
+
+### **Investment Management**
+- Add new investment lots with details like:
+  - Number of shares.
+  - Price per share.
+  - Purchase date.
+- View a summary of all lots in a clean, tabular format.
+
+### **Selling Shares**
+- Sell shares with the **FIFO** method.
+- Calculate key metrics:
+  1. **Remaining Shares**: Total shares left after the sale.
+  2. **Cost Basis**: Per share of sold and remaining shares.
+  3. **Profit or Loss**: Total financial gain or loss from the sale.
+
+### **Dashboard Insights**
+- Interactive summaries displayed post-sale, showing metrics like remaining shares, cost basis, and profit/loss.
+
+### **Clean Architecture**
+- Well-structured separation of concerns with controllers, models, Razor views, and database interactions.
 
 ---
 
 ## **Technologies Used**
 
 - **Framework**: ASP.NET Core
-- **Database**: Entity Framework Core with MySQL (or InMemory for testing)
-- **Front-End**: Razor Views
-- **Unit Testing**: xUnit with Moq
+- **Database**: MySQL with Entity Framework Core
+- **Frontend**: Razor Views
 - **Containerization**: Docker and Docker Compose
 
 ---
 
-## **Installation**
+## **Getting Started**  
 
-### Prerequisites
+### **Prerequisites**  
+Ensure you have the following installed:
 - [.NET 6+ SDK](https://dotnet.microsoft.com/download)
 - [MySQL 8.0+](https://www.mysql.com/downloads/)
 - [Docker](https://www.docker.com/)
-- A text editor or IDE (e.g., [Visual Studio](https://visualstudio.microsoft.com/))
-
-### Steps
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/ealvarezl/InvestmentAllvue.git
-   cd InvestmentAllvue\InvestmentTracker
-   ```
-
-2. To use Docker:
-   - Build and start the containers:
-     ```bash
-     docker-compose up --build
-     ```
-   - Access the app at `http://localhost:5000`.
+- An IDE or text editor (e.g., [Visual Studio](https://visualstudio.microsoft.com/))
 
 ---
 
-## **Usage**
+### **Installation**  
 
-### Adding Investment Lots
-1. Navigate to the "Add New Investment Lot" section.
-2. Enter:
-   - Number of shares.
-   - Price per share.
-   - Purchase date.
-3. Submit the form to add the new lot.
+#### **Using Docker**  
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/ealvarezl/InvestmentAllvue.git
+   cd InvestmentAllvue/InvestmentTracker
+   ```
 
-### Selling Shares
+2. Build and start the application:
+   ```bash
+   docker-compose up --build -d
+   ```
+
+3. Open your browser and access the application at:
+   ```
+   http://localhost:5000
+   ```
+
+
+---
+
+## **Usage**  
+
+### **Adding Investment Lots**
+1. Navigate to the "Add New Investment Lot" page.
+2. Fill out the form:
+   - Enter the **number of shares**, **price per share**, and **purchase date**.
+   - Submit the form to add the lot to the database.
+
+### **Selling Shares**
 1. Go to the "Sell Shares" page.
 2. Enter:
-   - Number of shares to sell.
-   - Price per share.
-3. View the calculated metrics:
+   - **Number of shares to sell**.
+   - **Price per share** at which the sale is happening.
+3. Submit the form to view key metrics:
    - Remaining shares.
-   - Cost basis per share (sold and remaining).
+   - Cost basis for sold and remaining shares.
    - Total profit or loss.
 
 ---
 
-## **Development**
+## **Development**  
 
-### Running Tests
-1. Navigate to the test project directory:
-   ```bash
-   cd InvestmentTracker.Tests
-   ```
-2. Run all tests:
-   ```bash
-   dotnet test
-   ```
-
-### Project Structure
-- **Controllers**: Business logic for managing investments and user interactions.
-- **Models**: Entity definitions for `InvestmentLot` and related calculations.
-- **Views**: Razor templates for displaying data to the user.
-- **Data**: Database context and seeding logic.
+### **Project Structure**
+- **Controllers**: Manages investment logic and handles user input.
+- **Models**: Defines the `InvestmentLot` entity and calculations for metrics.
+- **Views**: Razor templates for rendering the user interface.
+- **Data**: Manages database context and seeding logic.
 
 ---
 
-## **Contact**
+## **Known Limitations**
 
-For questions or support, feel free to contact:
-- **Name**: Eglis Alvarez
-- **Email**: eglisal@gmail.com
+- Only supports the **FIFO** accounting method for selling shares.
+- Shares purchased after **March 31, 2024**, are marked with a warning and may not be eligible for sales as per the application’s logic.
+
+---
+
+## **Contact**  
+
+For questions, feedback, or support, please reach out to:  
+- **Name**: Eglis Alvarez  
+- **Email**: eglisal@gmail.com  
+
 --- 
-
