@@ -68,7 +68,9 @@ Ensure you have the following installed:
    docker-compose up --build -d
    ```
 
-3. Open your browser and access the application at:
+3. Wait a few seconds for sincronization
+
+4. Open your browser and access the application at:
    ```
    http://localhost:5000
    ```
