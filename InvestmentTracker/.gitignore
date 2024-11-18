@@ -50,6 +50,4 @@ node_modules/
 bower_components/
 packages/
 
-# Publish outputs
-publish/
-wwwroot/
+
