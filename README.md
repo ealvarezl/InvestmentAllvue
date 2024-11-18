@@ -50,7 +50,7 @@ The **Investment Tracker** is an ASP.NET Core web application that allows users 
 1. Clone the repository:
    ```bash
    git clone https://github.com/ealvarezl/InvestmentAllvue.git
-   cd investment-tracker
+   cd InvestmentAllvue\InvestmentTracker
    ```
 
 2. To use Docker:
