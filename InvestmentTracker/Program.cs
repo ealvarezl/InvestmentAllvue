@@ -19,8 +19,6 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<InvestmentDbContext>();
-    dbContext.Database.Migrate();
-    DataSeeder.Seed(dbContext);
 }
 
 
