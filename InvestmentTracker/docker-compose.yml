@@ -24,8 +24,3 @@ services:
       MYSQL_DATABASE: InvestmentDB
       MYSQL_USER: myuser
       MYSQL_PASSWORD: myuserPassword
-    volumes:
-      - mysql_data:/var/lib/mysql
-
-volumes:
-  mysql_data:

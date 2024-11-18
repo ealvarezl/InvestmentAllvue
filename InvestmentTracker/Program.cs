@@ -1,6 +1,6 @@
 using InvestmentTracker.Data;
 using Microsoft.EntityFrameworkCore;
-using InvestmentTracker.Utilities;
+
 
 var builder = WebApplication.CreateBuilder(args);
 

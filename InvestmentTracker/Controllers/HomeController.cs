@@ -77,7 +77,7 @@ namespace InvestmentTracker.Controllers
             }
             catch (Exception ex)
             {
-                // Manejo de errores
+                
                 ModelState.AddModelError("", $"An error occurred: {ex.Message}");
                 return View(investmentLot);
             }
