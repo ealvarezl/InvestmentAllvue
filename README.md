@@ -68,7 +68,7 @@ Ensure you have the following installed:
    docker-compose up --build -d
    ```
 
-3. Wait a few seconds for sincronization
+3. Wait a few seconds for synchronization
 
 4. Open your browser and access the application at:
    ```
