@@ -1,7 +1,3 @@
-Here's an improved and polished version of your README with a more structured flow, concise language, and additional clarity for users and developers:
-
----
-
 # **Investment Tracker**  
 **Allvue Technical Assessment**
 
