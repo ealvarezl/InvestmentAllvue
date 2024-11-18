@@ -23,18 +23,18 @@ namespace InvestmentTracker.Controllers
         {
             try
             {
-                
+
                 var investmentLots = _context.InvestmentLots.ToList();
 
-               
+
                 return View(investmentLots);
             }
             catch (Exception ex)
             {
-               
+
                 _logger.LogError(ex, "Error recovering: Investment Lots.");
 
-                
+
                 return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
             }
         }
@@ -53,7 +53,7 @@ namespace InvestmentTracker.Controllers
         // GET: Home/Create
         public IActionResult Create()
         {
-            
+
             return View();
         }
 
@@ -66,18 +66,18 @@ namespace InvestmentTracker.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    
+
                     if (investmentLot.PurchaseDate > new DateTime(2024, 3, 31))
                     {
-                        
+
                         TempData["WarningMessage"] = "The purchase date is after April 1, 2024. This lot may not be eligible for sales.";
                     }
 
-                    
+
                     _context.InvestmentLots.Add(investmentLot);
                     _context.SaveChanges();
 
-                    
+
                     TempData["SuccessMessage"] = "Investment lot added successfully!";
                     return RedirectToAction(nameof(Index));
                 }
@@ -86,7 +86,7 @@ namespace InvestmentTracker.Controllers
             }
             catch (Exception ex)
             {
-               
+
                 ModelState.AddModelError("", $"An error occurred: {ex.Message}");
                 return View(investmentLot);
             }
@@ -97,7 +97,7 @@ namespace InvestmentTracker.Controllers
         // GET: Home/Sell
         public ActionResult Sell()
         {
-           
+
             return View();
         }
 
@@ -121,7 +121,7 @@ namespace InvestmentTracker.Controllers
                     .OrderBy(lot => lot.PurchaseDate)
                     .ToList();
 
- 
+
                 var totalEligibleShares = eligibleLots.Sum(lot => lot.Shares);
                 if (sharesToSell > totalEligibleShares)
                 {
@@ -129,7 +129,7 @@ namespace InvestmentTracker.Controllers
                     return View();
                 }
 
-              
+
                 var remainingShares = sharesToSell;
                 decimal totalProfit = 0;
                 decimal totalCostOfSoldShares = 0;
@@ -158,17 +158,17 @@ namespace InvestmentTracker.Controllers
                     }
                 }
 
-               
+
                 if (totalSoldShares == 0)
                 {
                     ModelState.AddModelError("", "No shares were sold. Please check your input.");
                     return View();
                 }
 
-                
+
                 _context.SaveChanges();
 
-              
+
                 var remainingSharesAfterSale = _context.InvestmentLots.Sum(lot => lot.Shares);
                 var totalCostOfRemainingShares = _context.InvestmentLots.Sum(lot => lot.Shares * lot.PricePerShare);
 
@@ -177,12 +177,12 @@ namespace InvestmentTracker.Controllers
                     ? Math.Round(totalCostOfRemainingShares / remainingSharesAfterSale, 2)
                     : 0;
 
-              
-                TempData["SuccessMessage"] = $"Successfully sold {sharesToSell} shares.";
-                TempData["RemainingShares"] = $"Remaining Shares: {remainingSharesAfterSale} ";
-                TempData["CostBasisSold"] = $"Cost Basis Per Sold Share: {costBasisPerShareSold.ToString("F2")} ";
-                TempData["CostBasisRemaining"] = $"Cost Basis Per Remaining Share: {costBasisPerShareRemaining.ToString("F2")}";
-                TempData["TotalProfit"] = $"Total Profit/Loss: {totalProfit.ToString("F2")}";
+
+                TempData["SuccessMessage"] = $"Shares sold: {sharesToSell}";
+                TempData["RemainingShares"] = remainingSharesAfterSale;
+                TempData["CostBasisSold"] = costBasisPerShareSold.ToString("F2");
+                TempData["CostBasisRemaining"] = costBasisPerShareRemaining.ToString("F2");
+                TempData["TotalProfit"] = totalProfit.ToString("F2");
 
                 return RedirectToAction(nameof(Index));
             }
